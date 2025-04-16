@@ -1,0 +1,226 @@
+1) Intra vlan - using single switch (2vlans(vlan10,vlan20) - one vlan contains 2pcs)
+---------------------------------------------------------------------------------------
+switch>enable
+switch#config terminal
+switch(config)#vlan 10
+switch(config-vlan)#name vl1
+switch(config-vlan)#interface range fastethernet 0/1-2
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 10
+switch(config-if-range)#exit
+switch(config)#vlan 20
+switch(config-vlan)#name vl2
+switch(config-vlan)#interface range fastethernet 0/3-4
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 20
+switch(config-if-range)#exit
+
+
+2) Intra vlan - using multiple switches (2vlans(vlan10,vlan20) - one vlan contains 2pcs)
+-------------------------------------------------------------------------------------------
+
+for switch1
+------------
+switch>enable
+switch#config terminal
+switch(config)#vlan 10
+switch(config-vlan)#name vl1
+switch(config-vlan)#interface range fastethernet 0/1-2
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 10
+switch(config-if-range)#exit
+switch(config)#vlan 20
+switch(config-vlan)#name vl2
+switch(config-vlan)#interface range fastethernet 0/3-4
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 20
+switch(config-if-range)#exit
+switch(config)#interface fastethernet 0/5
+switch(config-if)#switchport mode trunk
+switch(config-if)#exit
+
+for switch2
+------------
+switch>enable
+switch#config terminal
+switch(config)#vlan 10
+switch(config-vlan)#name vl1
+switch(config-vlan)#interface range fastethernet 0/1-2
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 10
+switch(config-if-range)#exit
+switch(config)#vlan 20
+switch(config-vlan)#name vl2
+switch(config-vlan)#interface range fastethernet 0/3-4
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 20
+switch(config-if-range)#exit
+switch(config)#interface fastethernet 0/5
+switch(config-if)#switchport mode trunk
+switch(config-if)#exit
+
+3)Inter vlan - using L3(Multilayer switch)(2vlans(vlan10,vlan20) - one vlan contains 1pc)
+-------------------------------------------------------------------------------------------
+for switch1
+------------
+switch>enable
+switch#config terminal
+switch(config)#vlan 10
+switch(config-vlan)#name vl1
+switch(config-vlan)#interface range fastethernet 0/1
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 10
+switch(config-if-range)#exit
+switch(config)#vlan 20
+switch(config-vlan)#name vl2
+switch(config-vlan)#interface range fastethernet 0/2
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 20
+switch(config-if-range)#exit
+switch(config)#interface fastethernet 0/3
+switch(config-if)#switchport mode trunk
+switch(config-if)#exit
+
+for switch2
+------------
+switch>enable
+switch#config terminal
+switch(config)#vlan 10
+switch(config-vlan)#name vl1
+switch(config-vlan)#interface range fastethernet 0/1
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 10
+switch(config-if-range)#exit
+switch(config)#vlan 20
+switch(config-vlan)#name vl2
+switch(config-vlan)#interface range fastethernet 0/2
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 20
+switch(config-if-range)#exit
+switch(config)#interface fastethernet 0/3
+switch(config-if)#switchport mode trunk
+switch(config-if)#exit
+
+for multilayer switch
+----------------------
+switch>enable
+switch#config terminal
+switch(config)#vlan 10
+switch(config-vlan)#vlan 20
+switch(config-vlan)#exit
+switch(config)#interface fastethernet 0/1
+switch(config-if)#switchport trunk encapsulation dot1q
+switch(config-if)#exit
+switch(config)#interface fastethernet 0/2
+switch(config-if)#switchport trunk encapsulation dot1q
+switch(config-if)#exit
+switch(config)#ip routing
+switch(config)#interface vlan 10
+switch(config-if)#ip address 192.168.10.100
+switch(config-if)#exit
+switch(config)#interface vlan 20
+switch(config-if)#ip address 192.168.20.100
+switch(config-if)#exit
+
+4)Inter vlan - using router on stick method(3vlans(vlan10,vlan20,vlan30) - one vlan contains 1pc)
+-------------------------------------------------------------------------------------------
+for switch1
+------------
+switch>enable
+switch#config terminal
+switch(config)#vlan 10
+switch(config-vlan)#name vl1
+switch(config-vlan)#interface range fastethernet 0/1
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 10
+switch(config-if-range)#exit
+switch(config)#vlan 20
+switch(config-vlan)#name vl2
+switch(config-vlan)#interface range fastethernet 0/2
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 20
+switch(config-if-range)#exit
+switch(config)#vlan 30
+switch(config-vlan)#name vl3
+switch(config-vlan)#interface range fastethernet 0/3
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 30
+switch(config-if-range)#exit
+
+
+for switch2
+------------
+switch>enable
+switch#config terminal
+switch(config)#vlan 10
+switch(config-vlan)#name vl1
+switch(config-vlan)#interface range fastethernet 0/1
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 10
+switch(config-if-range)#exit
+switch(config)#vlan 20
+switch(config-vlan)#name vl2
+switch(config-vlan)#interface range fastethernet 0/2
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 20
+switch(config-if-range)#exit
+switch(config)#vlan 30
+switch(config-vlan)#name vl2
+switch(config-vlan)#interface range fastethernet 0/3
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 30
+switch(config-if-range)#exit
+
+for switch3
+----------------------
+switch>enable
+switch#config terminal
+switch(config)#vlan 10
+switch(config-vlan)#name vl1
+switch(config-vlan)#interface range fastethernet 0/1
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 10
+switch(config-if-range)#exit
+switch(config)#vlan 20
+switch(config-vlan)#name vl2
+switch(config-vlan)#interface range fastethernet 0/2
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 20
+switch(config-if-range)#exit
+switch(config)#vlan 30
+switch(config-vlan)#name vl2
+switch(config-vlan)#interface range fastethernet 0/3
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 30
+switch(config-if-range)#exit
+
+for switch4(which connects to 3 switches)
+-------------------------------------------
+switch>enable
+switch#config terminal
+switch(config)#vlan 10
+switch(config-vlan)#vlan 20
+switch(config-vlan)#vlan 30
+switch(config-vlan)#exit
+switch(config)#interface range fastethernet 0/1-4
+switch(config-if-range)#switchport mode trunk
+switch(config-if-range)#exit
+
+for router
+-----------
+router>enable
+router#config terminal
+router(config)#interface gigabitEthernet 0/0.10
+router(config-subin)#encapsulation dot1q 10
+router(config-subin)#ip address 192.168.10.100 255.255.255.0
+router(config-subin)#
+router(config)#interface gigabitEthernet 0/0.20
+router(config-subin)#encapsulation dot1q 20
+router(config-subin)#ip address 192.168.20.100 255.255.255.0
+router(config-subin)#
+router(config)#interface gigabitEthernet 0/0.30
+router(config-subin)#encapsulation dot1q 30
+router(config-subin)#ip address 192.168.30.100 255.255.255.0
+router(config-subin)#exit
+router(config)#interface gigabitEthernet 0/0
+router(config-if)#noshutdown
